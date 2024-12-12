@@ -1,0 +1,19 @@
+services:
+  qbit:
+    image: qbittorrentofficial/qbittorrent-nox:latest
+    restart: always
+    networks:
+      - cftunnel
+    environment:
+      - QBT_LEGAL_NOTICE=confirm
+    volumes:
+      - ./downloads:/downloads
+      - ./config:/config
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    networks:
+      - cftunnel
+    command: tunnel run --token ${TUNNEL_TOKEN}
+networks:
+  cftunnel:
